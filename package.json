@@ -1,0 +1,37 @@
+{
+  "name": "polar-exposition-2008",
+  "version": "1.1.0",
+  "description": "A photo gallery website documenting a 2008 Arctic expedition with dynamic email correspondence",
+  "main": "index.html",
+  "scripts": {
+    "dev": "sass --watch assets/sass:assets/css",
+    "build:css": "sass assets/sass:assets/css --style=compressed",
+    "serve": "npx http-server -p 8000 -c-1",
+    "start": "npm run serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ruthstorm/polar-exposition-2008.git"
+  },
+  "keywords": [
+    "arctic",
+    "photography",
+    "expedition",
+    "gallery",
+    "responsive",
+    "jquery",
+    "sass",
+    "historical",
+    "documentation"
+  ],
+  "author": "Ruth Storm",
+  "license": "MIT",
+  "homepage": "https://github.com/ruthstorm/polar-exposition-2008#readme",
+  "devDependencies": {
+    "sass": "^1.69.0",
+    "http-server": "^14.1.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

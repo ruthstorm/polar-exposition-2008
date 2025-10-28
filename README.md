@@ -1,10 +1,9 @@
 # Polar Exposition 2008
 
-A photo gallery website documenting a 2008 Arctic expedition, featuring stunning, albeit small, photographs sent by email from my dad when he flew a twin otter in the arctic and the Maldives in 2008.
+A photo gallery website documenting a 2008 Arctic expedition, featuring stunning, albeit small, photographs sent by email from my dad when he flew a twin otter in both the polar and equatorial regions within one year in 2008.
 
-## Overview
 
-This project is a responsive photo gallery website built with HTML5, CSS3, and JavaScript that showcases a collection of Arctic expedition photos from 2008-2009. The website features a chronological layout of expedition photos with an elegant lightbox gallery interface.
+*"Once upon a crisis in 2008... I had just graduated from college and was having a hard time finding work. I asked my dad to send pictures from his work that maybe I could use for the content of a website, recently I have once again had time to get more creative than replicative."* - Ruth Storm
 
 ## Features
 
@@ -15,30 +14,43 @@ This project is a responsive photo gallery website built with HTML5, CSS3, and J
 - **Sass Preprocessing**: Modular CSS architecture using Sass
 - **Font Awesome Icons**: Professional iconography throughout the interface
 
+ 
+
 ## Project Structure
 
 ```
 polar-exposition-2008/
 ├── index.html                 # Main HTML file
+├── package.json              # Project configuration & scripts
+├── README.md                 # Project documentation
+├── .gitignore               # Git ignore rules
 ├── assets/
 │   ├── css/                  # Compiled CSS files
 │   │   ├── main.css
+│   │   ├── context-blocks.css
 │   │   ├── noscript.css
-│   │   └── fontawesome-all.min.css
+│   │   ├── fontawesome-all.min.css
+│   │   └── images/          # CSS background images
+│   ├── data/                 # Data files
+│   │   └── emails.json      # Email content data
 │   ├── js/                   # JavaScript files
-│   │   ├── main.js
+│   │   ├── main.js          # Main site functionality
+│   │   ├── render-copy-json.js  # Dynamic content renderer
 │   │   ├── jquery.min.js
 │   │   ├── jquery.poptrox.min.js
-│   │   └── other utility files
+│   │   ├── breakpoints.min.js
+│   │   ├── browser.min.js
+│   │   └── util.js
 │   ├── sass/                 # Sass source files
 │   │   ├── main.scss
-│   │   ├── base/            # Base styles
-│   │   ├── components/      # UI components
+│   │   ├── noscript.scss
+│   │   ├── base/            # Base styles (reset, typography, page)
+│   │   ├── components/      # UI components (buttons, forms, icons, etc.)
 │   │   ├── layout/          # Layout styles
 │   │   └── libs/            # Third-party styles
-│   └── webfonts/            # Font files
+│   └── webfonts/            # Font Awesome web fonts
 ├── images/
-│   ├── fulls/               # Full-size images
+│   ├── fulls/               # Full-size images (expedition photos)
 │   └── thumbs/              # Thumbnail images
 └── copy/                    # Original email correspondences (text files)
 ```
@@ -75,69 +87,49 @@ The gallery documents various Arctic expeditions and activities:
 - **Font Awesome**: Icon library
 - **Responsive Design**: Mobile-first approach
 
-## Getting Started
 
-### Prerequisites
+### Local Development Server
 
-- Modern web browser (Chrome, Firefox, Safari, Edge)
-- Optional: Sass compiler for development
+For full functionality (especially email content loading), run a local server:
 
-
-2. Open `index.html` in your web browser to view the gallery
-
-### Development
-
-If you want to modify the styles:
-
-1. Install Sass (if not already installed):
 ```bash
-npm install -g sass
+# Using npm (if you have Node.js)
+npm run serve
+
+# Then visit http://localhost:8000
 ```
 
-2. Watch for changes and compile Sass:
-```bash
-sass --watch assets/sass:assets/css
-```
+## Future Improvements
 
-3. Make changes to the `.scss` files in the `assets/sass/` directory
+The following enhancements are planned to improve the user experience and functionality:
 
-## Image Organization
-
-Images are organized chronologically and stored in two formats:
-- **Thumbnails** (`images/thumbs/`): Optimized for gallery grid view
-- **Full-size** (`images/fulls/`): High-resolution images for lightbox display
-
-Naming convention: `YYYY-MM-DD_HH-MM_description_location.jpg`
-
-## Historical Context
-
-This photo collection documents research and logistical operations in the Canadian Arctic during 2008-2009. The expedition covered various aspects of Arctic research including:
-
-- Climate monitoring stations
-- Wildlife observation (polar bears, belugas, Arctic cod)
-- Historical site documentation
-- Community interaction with Inuit populations
-- Equipment and supply operations in extreme conditions
+- **Improved Navigation Arrows**: Enhance the lightbox navigation with better visibility and smoother transitions
+- **JSON Content Integration**: Add better templating with Next.js
+- **Arctic Documentary Video**: Embed YouTube video content about Arctic expeditions and research
+- **Accessibility Testing**: Comprehensive accessibility audit and improvements for screen readers and keyboard navigation
+- **Interactive Map**: Display locations via an Arctic map
 
 ## Credits
 
-- **Photography**: Original expedition photographer
+- **Photography**: My Dad
 - **Development**: Ruth Storm
 - **Website Framework**: Based on modern responsive design principles
-- **Icons**: Font Awesome
+- **Icons**: [Font Awesome](https://fontawesome.com/)
 - **Fonts**: Web-safe font stack with custom webfonts
+- **HTML Template & JQuery**: [pixelarity.com](https://pixelarity.com/)
+
 
 ## License
 
-This project is intended for educational and documentary purposes. All photographs remain the property of the original expedition team.
+
+Copyright (c) 2025 Ruth Storm
+
+**Note**: The photographs and expedition content are personal family archives.
+Please respect the personal nature of the imagery and content.
 
 ## Contact
 
 For questions about this project or the expedition documentation:
 - **GitHub**: [ruthstorm](https://github.com/ruthstorm)
-- **LinkedIn**: [Ruth Storm](https://www.linkedin.com/in/ruthstorm/)
+- **LinkedIn**: [stormruth](https://www.linkedin.com/in/stormruth/)
 - **Website**: [ruthstorm.com](https://www.ruthstorm.com)
-
----
-
-*"Once upon a crisis in 2008... I had just graduated from college and was having a hard time finding work. I asked my dad to send pictures from his work that maybe I could use for the content of a website, recently I have once again had time to get more creative than replicative."* - Ruth Storm
