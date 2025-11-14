@@ -278,4 +278,178 @@
 					$main[0]._poptrox.windowMargin = 50;
 				});
 
+
+
+				// My additions to the template
+		// Context blocks from JSON data.
+		// Load and insert context blocks from emails.json
+		function loadContextData() {
+			console.log('Loading context from JSON...');
+			
+			$.ajax({
+				url: 'assets/data/emails.json',
+				dataType: 'json',
+				success: function(contextData) {
+					insertContextBlocks(contextData);
+				},
+				error: function(xhr, status, error) {
+					console.warn('Could not load context data:', error);
+				}
+			});
+		}
+
+		function insertContextBlocks(contextData) {
+			console.log('Grouping photos by date and inserting context blocks...');
+			
+			// Group photos by date
+			var dateGroups = groupPhotosByDate();
+			
+			// Process each date group
+			$.each(dateGroups, function(dateKey, photoGroup) {
+				var contextEntry = contextData[dateKey];
+				
+				if (contextEntry && photoGroup.photos.length > 0) {
+					// Find the last photo in this date group
+					var $lastPhotoInGroup = $(photoGroup.photos[photoGroup.photos.length - 1]);
+					
+					// Check if we already added a context block after this group
+					if (!$lastPhotoInGroup.next('.context-block').length) {
+						var $contextArticle = createContextArticle(contextEntry, photoGroup.photos.length);
+						$lastPhotoInGroup.after($contextArticle);
+						console.log('Added context block for ' + dateKey + ' (' + photoGroup.photos.length + ' photos)');
+					}
+				}
+			});
+		}
+
+		function groupPhotosByDate() {
+			var groups = {};
+			
+			$('.thumb').each(function() {
+				var $thumb = $(this);
+				var imgSrc = $thumb.find('img').attr('src');
+				var datePrefix = extractDatePrefix(imgSrc);
+				
+				if (datePrefix) {
+					if (!groups[datePrefix]) {
+						groups[datePrefix] = {
+							datePrefix: datePrefix,
+							photos: []
+						};
+					}
+					groups[datePrefix].photos.push($thumb[0]);
+				}
+			});
+			
+			return groups;
+		}
+
+		function extractDatePrefix(src) {
+			if (!src) return null;
+			var match = src.match(/(\d{4}-\d{2}-\d{2}_\d{2}-\d{2})/);
+			return match ? match[1] : null;
+		}
+
+		function createContextArticle(entry, photoCount) {
+			var dateStr = formatDate(entry.id);
+			var contextContent = formatContextContent(entry.context);
+			var photoCountText = photoCount > 1 ? ' (' + photoCount + ' photos)' : '';
+			
+			var articleHtml = [
+				'<article class="context-block thumb" data-context-id="' + entry.id + '">',
+				'	<div class="context-header">',
+				'		<h2>Expedition Notes from Email' + photoCountText + '</h2>',
+				'		<h3>' + dateStr + '</h3>',
+				'	</div>',
+				'	<div class="context-content">',
+				'		<div class="context-text">' + contextContent + '</div>',
+				'		<div class="context-meta">',
+				'			<small>From expedition archives • ' + entry.filename + '</small>',
+				'		</div>',
+				'	</div>',
+				'</article>'
+			].join('\n');
+			
+			return $(articleHtml);
+		}
+
+		function formatDate(datePrefix) {
+			try {
+				var parts = datePrefix.split('_');
+				var datePart = parts[0];
+				var dateParts = datePart.split('-');
+				var year = parseInt(dateParts[0]);
+				var month = parseInt(dateParts[1]) - 1;
+				var day = parseInt(dateParts[2]);
+				var date = new Date(year, month, day);
+				
+				return date.toLocaleDateString('en-US', {
+					year: 'numeric',
+					month: 'long',
+					day: 'numeric'
+				});
+			} catch (e) {
+				return datePrefix;
+			}
+		}
+
+		function formatContextContent(content) {
+			if (!content) return '<p><em>No context available</em></p>';
+			
+			// Clean up content (remove Windows line endings)
+			var cleanContent = content.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+			
+			// Split by double line breaks for paragraphs
+			var paragraphs = cleanContent.split(/\n\s*\n/).filter(function(p) {
+				return p.trim();
+			});
+			
+			var formatted = paragraphs.map(function(paragraph) {
+				var lines = paragraph.split('\n').filter(function(line) {
+					return line.trim();
+				});
+				
+				// Check if it's a numbered list
+				if (lines.length > 1 && lines.every(function(line) {
+					return /^\d+\./.test(line.trim());
+				})) {
+					var listItems = lines.map(function(line) {
+						return '<li>' + escapeHtml(line.replace(/^\d+\.\s*/, '')) + '</li>';
+					}).join('');
+					return '<ol>' + listItems + '</ol>';
+				}
+				
+				// Check for signatures (lines starting with common sign-offs)
+				var lastLine = lines[lines.length - 1];
+				if (lines.length > 1 && /^(love|luv|cheers|regards|best|dad|paul|margaret|m\.|p\{|pj)/i.test(lastLine.trim())) {
+					var bodyLines = lines.slice(0, -1);
+					var signature = lastLine.trim();
+					
+					var result = '';
+					if (bodyLines.length > 0) {
+						result += '<p>' + escapeHtml(bodyLines.join(' ')) + '</p>';
+					}
+					result += '<p class="context-signature">' + escapeHtml(signature) + '</p>';
+					return result;
+				}
+				
+				// Regular paragraph
+				return '<p>' + escapeHtml(lines.join(' ')) + '</p>';
+			});
+			
+			return formatted.join('');
+		}
+
+		function escapeHtml(text) {
+			var div = document.createElement('div');
+			div.textContent = text;
+			return div.innerHTML;
+		}
+
+		// Initialize context loading after page load
+		$window.on('load', function() {
+			// Small delay to ensure all images are processed first
+			setTimeout(loadContextData, 500);
+		});
+
 })(jQuery);
