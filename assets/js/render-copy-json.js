@@ -1,5 +1,5 @@
 /*
-	Polar Exposition 2008 by Ruth Storm, https://ruthstorm.com
+	Arctic to Tropic - 2008 by Ruth Storm, https://ruthstorm.com
     Fetches assets/data/emails.json and inserts context blocks alternating with photos
 */
 

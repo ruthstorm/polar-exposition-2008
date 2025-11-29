@@ -1,4 +1,4 @@
-# Polar Exposition 2008
+# Arctic to Tropic - 2008
 
 A photo gallery website documenting a 2008 Arctic expedition, featuring stunning, albeit small, photographs sent by email from my dad when he flew a twin otter in both the polar and equatorial regions within one year in 2008.
 
